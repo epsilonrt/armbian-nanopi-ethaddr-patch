@@ -35,17 +35,16 @@ On va dans `System` puis `Freeze`. Puis:
 
 ## Analyse du problème
 
-Dans la mainline du kernel 4.x, le driver de la carte Ethernet (`dwmac-sun8i`), renvoit une adresse MAC aléatoire. Cela est dû, sans doute, à une mauvaise intégration de Device Tree dans ce driver. Sur le site 
-[linux-sunxi](http://linux-sunxi.org/Sun8i_emac) il est dit :
+Dans la mainline du kernel 4.x, le driver de la carte Ethernet (`dwmac-sun8i`), renvoit une adresse MAC aléatoire. Cela est dû, sans doute, à une mauvaise intégration de Device Tree dans ce driver. Sur le site [linux-sunxi](http://linux-sunxi.org/Sun8i_emac) il est dit :
 
   "_This driver is mainline, but DT was reverted in 4.13-rc7. DT should be back soon._"
 
 Voilà ce qu'indique le kernel au démarrage (dmesg) :
 
-> [   10.889856] dwmac-sun8i 1c30000.ethernet eth0: device MAC address 1a:b2:4a:84:f7:fc
-> [   10.890960] Generic PHY 0.1:01: attached PHY driver > [Generic PHY] (mii_bus:phy_addr=0.1:01, irq=POLL)
-> ....
-> [   14.009054] dwmac-sun8i 1c30000.ethernet eth0: Link is Up - 100Mbps/Full - flow control off
+> [   10.889856] dwmac-sun8i 1c30000.ethernet eth0: device MAC address 1a:b2:4a:84:f7:fc  
+> [   10.890960] Generic PHY 0.1:01: attached PHY driver > [Generic PHY] (mii_bus:phy_addr=0.1:01, irq=POLL)  
+> ....  
+> [   14.009054] dwmac-sun8i 1c30000.ethernet eth0: Link is Up - 100Mbps/Full - flow control off  
 
 Le programme de boot du nanopi (u-boot) a une variable `ethaddr` mais qui pas utilisée par le kernel ! On peut lire cette variable en accédant à la ligne de commande de u-boot. Il faut, pour cela, connecter un adaptateur série-usb sur le connecteur UART0 (debug) du NanoPi. Au boot, il faut appuyer tout de suite sur la touche Espace, puis utiliser `printenv`:  
 
@@ -72,6 +71,8 @@ Dans le fichier `sun8i-h3-nanopi-neo.dts` de FriendlyArm, on peut voir que `ethe
     status = "okay";
     local-mac-address = [00 00 00 00 00 00];
 
+Solution trouvée !
+
 ## Mise en oeuvre détaillée de la solution
 
 Il faut commencer par geler la mise à jour du noyau et de u-boot:
@@ -82,10 +83,10 @@ On va dans `System` puis `Freeze`. Si on veut vérifier :
 
     dpkg -l | grep ^hi
 
-> hi  linux-dtb-next-sunxi                 5.41                           armhf        Linux DTB, version 4.14.18-sunxi
-> hi  linux-image-next-sunxi               5.41                           armhf        Linux kernel, version 4.14.18-sunxi
-> hi  linux-stretch-root-next-nanopineo    5.41                           armhf        Armbian tweaks for stretch on nanopineo (next branch)
-> hi  linux-u-boot-nanopineo-next          5.41                           armhf        Uboot loader 2017.11
+> hi  linux-dtb-next-sunxi                 5.41                           armhf        Linux DTB, version 4.14.18-sunxi  
+> hi  linux-image-next-sunxi               5.41                           armhf        Linux kernel, version 4.14.18-sunxi  
+> hi  linux-stretch-root-next-nanopineo    5.41                           armhf        Armbian tweaks for stretch on nanopineo (next branch)  
+> hi  linux-u-boot-nanopineo-next          5.41                           armhf        Uboot loader 2017.11  
 
 On clone le dépôt:
 
@@ -116,4 +117,3 @@ Voilà ! Il ne reste plus qu'à rebooter:
     sudo reboot
 
 Il faut juste espérer que les responsables du driver règle ce problème un jour...
-A priori, ce driver est géré par Corentin Labbe <clabbe.montjoie@gmail.com>.

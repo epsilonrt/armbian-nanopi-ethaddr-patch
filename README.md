@@ -41,10 +41,10 @@ In the kernel 4.x mainline, the ethernet card driver (`dwmac-sun8i`), returns a 
 
 This is what the boot kernel indicates (dmesg):
 
-> [   10.889856] dwmac-sun8i 1c30000.ethernet eth0: device MAC address 1a:b2:4a:84:f7:fc
-> [   10.890960] Generic PHY 0.1:01: attached PHY driver > [Generic PHY] (mii_bus:phy_addr=0.1:01, irq=POLL)
-> ....
-> [   14.009054] dwmac-sun8i 1c30000.ethernet eth0: Link is Up - 100Mbps/Full - flow control off
+> [   10.889856] dwmac-sun8i 1c30000.ethernet eth0: device MAC address 1a:b2:4a:84:f7:fc  
+> [   10.890960] Generic PHY 0.1:01: attached PHY driver > [Generic PHY] (mii_bus:phy_addr=0.1:01, irq=POLL)  
+> ....  
+> [   14.009054] dwmac-sun8i 1c30000.ethernet eth0: Link is Up - 100Mbps/Full - flow control off  
 
 The boot program of nanopi (u-boot) has a variable `ethaddr` but not used by the kernel! This variable can be read by accessing the command line of u-boot. To do this, connect a serial-usb adapter to the UART0 (debug) connector of the NanoPi. At boot time, press the Space key, then use `printenv`:
 
@@ -83,10 +83,10 @@ We go in `System` then` Freeze`. If we want to check:
 
     dpkg -l | grep ^hi
 
-> hi  linux-dtb-next-sunxi                 5.41                           armhf        Linux DTB, version 4.14.18-sunxi
-> hi  linux-image-next-sunxi               5.41                           armhf        Linux kernel, version 4.14.18-sunxi
-> hi  linux-stretch-root-next-nanopineo    5.41                           armhf        Armbian tweaks for stretch on nanopineo (next branch)
-> hi  linux-u-boot-nanopineo-next          5.41                           armhf        Uboot loader 2017.11
+> hi  linux-dtb-next-sunxi                 5.41                           armhf        Linux DTB, version 4.14.18-sunxi  
+> hi  linux-image-next-sunxi               5.41                           armhf        Linux kernel, version 4.14.18-sunxi  
+> hi  linux-stretch-root-next-nanopineo    5.41                           armhf        Armbian tweaks for stretch on nanopineo (next branch)  
+> hi  linux-u-boot-nanopineo-next          5.41                           armhf        Uboot loader 2017.11  
 
 We clone the repository :
 
