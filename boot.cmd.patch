@@ -1,0 +1,11 @@
+--- orig/boot.cmd	2018-02-11 19:00:21.472350828 +0100
++++ new/boot.cmd	2018-02-11 18:55:22.143871943 +0100
+@@ -81,5 +81,8 @@
+ 	bootz ${kernel_addr_r} ${ramdisk_addr_r}
+ fi
+ 
++# setup MAC address 
++fdt set ethernet0 local-mac-address ${mac_node}
++
+ # Recompile with:
+ # mkimage -C none -A arm -T script -d /boot/boot.cmd /boot/boot.scr

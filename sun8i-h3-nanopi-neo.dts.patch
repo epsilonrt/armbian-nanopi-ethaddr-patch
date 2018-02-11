@@ -1,0 +1,25 @@
+--- orig/sun8i-h3-nanopi-neo.dts	2018-02-11 20:53:39.230155181 +0100
++++ new/sun8i-h3-nanopi-neo.dts	2018-02-11 19:27:34.922513501 +0100
+@@ -701,12 +701,13 @@
+ 			#address-cells = <0x1>;
+ 			#size-cells = <0x0>;
+ 			status = "okay";
++			local-mac-address = [00 00 00 00 00 00];
+ 			phy-handle = <0x1a>;
+ 			phy-mode = "mii";
+ 			allwinner,leds-active-low;
+ 			linux,phandle = <0x57>;
+ 			phandle = <0x57>;
+-
++			
+ 			mdio {
+ 				#address-cells = <0x1>;
+ 				#size-cells = <0x0>;
+@@ -1429,6 +1430,7 @@
+ 
+ 	aliases {
+ 		serial0 = "/soc/serial@01c28000";
++		ethernet0 = "/soc/ethernet@1c30000";
+ 	};
+ 
+ 	chosen {
